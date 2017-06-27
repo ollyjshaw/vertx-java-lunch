@@ -29,16 +29,22 @@ public class FirstTest {
 
     @Test
     public void testMyApplication(TestContext context) {
-        final Async async = context.async();
 
-        vertx.createHttpClient().getNow(8080, "localhost", "/",
-                response -> {
-                    response.handler(body -> {
-                        context.assertTrue(body.toString().contains("Hello"));
-                        context.assertEquals(200, response.statusCode());
-                        async.complete();
+
+        for (int ii = 0; ii<100; ii++) {
+            System.out.println("loop "+ii);
+
+            final Async async = context.async();
+
+            vertx.createHttpClient().getNow(8080, "localhost", "/",
+                    response -> {
+                        response.handler(body -> {
+                            context.assertTrue(body.toString().contains("Hello"));
+                            context.assertEquals(200, response.statusCode());
+                            async.complete();
+                        });
                     });
-                });
+        }
     }
 
     @Test

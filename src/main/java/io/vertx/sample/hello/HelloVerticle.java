@@ -5,13 +5,11 @@ import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.Router;
 
-public class HelloVerticle extends AbstractVerticle {
+public class HelloVerticle extends LoggingVerticle {
 
   @Override
   public void start() throws Exception {
-//    vertx.createHttpServer().requestHandler(request -> {
-//      request.response().end("Hello Java world !");
-//    }).listen(8080);
+    super.start();
     HttpServer server = vertx.createHttpServer();
 
     Router router = Router.router(vertx);
