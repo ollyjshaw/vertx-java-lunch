@@ -59,26 +59,4 @@ public class SecondTest {
                 });
     }
 
-//    @Test
-//    public void testMyApplication404(TestContext context) {
-//        final Async async = context.async();
-//
-//        vertx.createHttpClient().getNow(8080, "localhost", "/foobar",
-//                response -> {
-//                    response.handler(body -> {
-//                        context.assertEquals(404, response.statusCode());
-//                        async.complete();
-//                    });
-//                });
-//    }
-//
-//
-//    @Test
-//    public void doTest(TestContext context) {
-//
-//
-//        System.out.print("!!!!!!!!!!!!!!!!!!!!!!");
-//
-//        context.assertEquals(1, 1);
-//    }
 }

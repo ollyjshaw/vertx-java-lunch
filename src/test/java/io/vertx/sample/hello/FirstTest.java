@@ -61,10 +61,6 @@ public class FirstTest {
 
     @Test
     public void doTest(TestContext context) {
-
-
-        System.out.print("!!!!!!!!!!!!!!!!!!!!!!");
-
         context.assertEquals(1, 1);
     }
 }
