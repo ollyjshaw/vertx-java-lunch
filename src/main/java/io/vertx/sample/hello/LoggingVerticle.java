@@ -11,13 +11,10 @@ public class LoggingVerticle extends AbstractVerticle {
 
     @Override
     public void init(Vertx vertx, Context context) {
-        logger.info("!!!!!!!!!!!!!!!!! INIT");
-        super.init(vertx, context);
-    }
+        //System.out.println(context.config().getString("http.port"));
+        String logmessage = "!!!!!!!!!!!!!!!!! INIT" + context.config().getInteger("http.port");
+        logger.info(logmessage);
 
-    @Override
-    public void start() throws Exception{
-        logger.info("!!!!!!!!!!!!! STARTING");
-        super.start();
+        super.init(vertx, context);
     }
 }

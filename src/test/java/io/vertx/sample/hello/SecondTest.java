@@ -1,7 +1,9 @@
 
 package io.vertx.sample.hello;
 
+import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.Repeat;
@@ -13,18 +15,27 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.net.ServerSocket;
+
 @RunWith(VertxUnitRunner.class)
 public class SecondTest {
 
-    private Vertx vertx;
-
     @Rule
     public RepeatRule rule = new RepeatRule();
+    private Vertx vertx;
+    private int port;
 
     @Before
-    public void setUp(TestContext context) {
+    public void setUp(TestContext context) throws Exception {
+        ServerSocket socket = new ServerSocket(0);
+        port = socket.getLocalPort();
+        socket.close();
+
+        DeploymentOptions options = new DeploymentOptions()
+                .setConfig(new JsonObject().put("http.port", port)
+                );
         vertx = Vertx.vertx();
-        vertx.deployVerticle(HelloVerticle.class.getName(),
+        vertx.deployVerticle(HelloVerticle.class.getName(), options,
                 context.asyncAssertSuccess());
     }
 
@@ -37,8 +48,8 @@ public class SecondTest {
     @Test
     public void testMyApplication(TestContext context) {
 
-        final Async async = context.async(1);
-        vertx.createHttpClient().getNow(8080, "localhost", "/",
+        final Async async = context.async();
+        vertx.createHttpClient().getNow(port, "localhost", "/",
                 response -> {
                     response.handler(body -> {
                         context.assertTrue(body.toString().contains("Hello"));
@@ -46,7 +57,6 @@ public class SecondTest {
                         async.complete();
                     });
                 });
-        async.awaitSuccess();
     }
 
 //    @Test

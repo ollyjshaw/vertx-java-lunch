@@ -32,8 +32,6 @@ public class FirstTest {
 
 
         for (int ii = 0; ii<100; ii++) {
-            System.out.println("loop "+ii);
-
             final Async async = context.async();
 
             vertx.createHttpClient().getNow(8080, "localhost", "/",
