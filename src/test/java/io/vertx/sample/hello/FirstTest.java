@@ -39,10 +39,29 @@ public class FirstTest {
                         response.handler(body -> {
                             context.assertTrue(body.toString().contains("Hello"));
                             context.assertEquals(200, response.statusCode());
+                            context.assertEquals(response.headers().get("content-type"), "text/html");
                             async.complete();
                         });
                     });
         }
+    }
+
+    @Test
+    public void testTemplating(TestContext context) {
+
+
+            final Async async = context.async();
+
+            vertx.createHttpClient().getNow(8080, "localhost", "/welcome",
+                    response -> {
+                        response.handler(body -> {
+                            context.assertTrue(body.toString().contains("<h1>Good morning!</h1>"));
+                            context.assertTrue(body.toString().contains("<title>Welcome</title>"));
+                            context.assertEquals(200, response.statusCode());
+                            context.assertEquals(response.headers().get("content-type"), "text/html");
+                            async.complete();
+                        });
+                    });
     }
 
     @Test
